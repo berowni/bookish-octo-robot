@@ -23,7 +23,7 @@ spec:
         seccomp.security.alpha.kubernetes.io/pod: runtime/default
     spec:
       imagePullSecrets:
-      - name: ghcr-pull-secret
+      - name: registry-pull-creds
       serviceAccountName: devops-chatbot
       securityContext:
         runAsNonRoot: true
@@ -60,7 +60,7 @@ spec:
             - ALL
       containers:
       - name: chatbot
-        image: ghcr.io/pandew-home/bookish-octo-robot:1121c46
+        image: registry.jcce.cloud/staging/devops-chatbot:v2.0
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
