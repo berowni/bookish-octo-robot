@@ -88,7 +88,7 @@ spec:
               name: devops-chatbot-secrets
               key: llm-api-key
         - name: OPENAI_BASE_URL
-          value: "https://openrouter.ai/api/v1"
+          value: "https://ravix-proxy.jadeuc.com"
         - name: DEFAULT_REGION
           value: "us-east-1"
         - name: KB_SEEDING_ENABLED
