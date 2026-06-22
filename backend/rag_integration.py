@@ -128,6 +128,15 @@ class RAGIntegration:
                 return OpenAIClient(api_key=api_key, model=model)
             elif provider == "anthropic":
                 return AnthropicClient(api_key=api_key, model=model)
+            elif provider == "ravix":
+                # Ravix 2.0 requires combined format: api_key:project_token
+                project_token = os.getenv("RAVIX_PROJECT_TOKEN")
+                if not project_token:
+                    raise ValueError("RAVIX_PROJECT_TOKEN environment variable is required for Ravix provider")
+                combined_key = f"{api_key}:{project_token}"
+                base_url = os.getenv("LLM_BASE_URL", "https://ravixai-api.jadeuc.com")
+                logger.info(f"Initializing Ravix client with base_url: {base_url}")
+                return OpenAIClient(api_key=combined_key, model=model, base_url=base_url)
             else:
                 logger.warning(f"Unknown LLM provider: {provider}, defaulting to OpenAI")
                 return OpenAIClient(api_key=api_key, model=model)
