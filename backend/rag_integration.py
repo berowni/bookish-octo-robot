@@ -134,7 +134,10 @@ class RAGIntegration:
                 if not project_token:
                     raise ValueError("RAVIX_PROJECT_TOKEN environment variable is required for Ravix provider")
                 combined_key = f"{api_key}:{project_token}"
+                # OpenAI client adds /v1 automatically, so we need base_url with /v1 included
                 base_url = os.getenv("LLM_BASE_URL", "https://ravixai-api.jadeuc.com")
+                if not base_url.endswith("/v1"):
+                    base_url = f"{base_url}/v1"
                 logger.info(f"Initializing Ravix client with base_url: {base_url}")
                 return OpenAIClient(api_key=combined_key, model=model, base_url=base_url)
             else:
