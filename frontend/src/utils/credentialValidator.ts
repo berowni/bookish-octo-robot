@@ -1,10 +1,12 @@
 import { KionCredentials, CredentialValidationErrors, AWS_REGIONS } from '../types/credentials';
 
 /**
- * AWS Access Key ID pattern: AKIA followed by 16 alphanumeric characters
- * Example: AKIAIOSFODNN7EXAMPLE
+ * AWS Access Key ID pattern: AKIA (permanent) or ASIA (temporary/STS) followed by 16 alphanumeric characters
+ * Examples: 
+ *   - Permanent: AKIAIOSFODNN7EXAMPLE
+ *   - Temporary (Kion): ASIAXXXXXXXXXXX
  */
-const ACCESS_KEY_PATTERN = /^AKIA[A-Z0-9]{16}$/;
+const ACCESS_KEY_PATTERN = /^A(KIA|SIA)[A-Z0-9]{16}$/;
 
 /**
  * AWS Secret Access Key pattern: 40 characters (base64-like)
@@ -32,7 +34,7 @@ export function validateCredentials(
   if (!credentials.accessKeyId) {
     errors.accessKeyId = 'Access Key ID is required';
   } else if (!ACCESS_KEY_PATTERN.test(credentials.accessKeyId)) {
-    errors.accessKeyId = 'Invalid Access Key ID format (should start with AKIA and be 20 characters)';
+    errors.accessKeyId = 'Invalid Access Key ID format (should start with AKIA or ASIA and be 20 characters)';
   }
 
   // Validate Secret Access Key
