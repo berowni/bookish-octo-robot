@@ -60,6 +60,7 @@ COPY --chown=chatbot:chatbot backend/api ./backend/api/
 COPY --chown=chatbot:chatbot backend/middleware ./backend/middleware/
 COPY --chown=chatbot:chatbot backend/utils ./backend/utils/
 COPY --chown=chatbot:chatbot backend/skills ./backend/skills/
+COPY --chown=chatbot:chatbot backend/prompts ./backend/prompts/
 
 RUN mkdir -p /data /tmp/supervisor /var/log/supervisor /var/run \
     && chown -R chatbot:chatbot /app /data /tmp /tmp/supervisor /var/www/html /var/log/supervisor /var/run \
