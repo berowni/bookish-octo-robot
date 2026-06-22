@@ -87,6 +87,10 @@ export const authApi = {
       session_token: credentials.sessionToken,
       region: credentials.region,
     });
+    // Store session ID for subsequent requests
+    if (response.data.sessionId) {
+      localStorage.setItem('sessionId', response.data.sessionId);
+    }
     return response.data;
   },
 
@@ -147,9 +151,14 @@ export const authApi = {
       console.log('[authApi] authKubeconfig response:', response.data);
       // Backend returns snake_case session_id; normalize to camelCase
       const data = response.data;
+      const sessionId = data.session_id ?? data.sessionId;
+      // Store session ID for subsequent requests
+      if (sessionId) {
+        localStorage.setItem('sessionId', sessionId);
+      }
       return {
         success: data.success,
-        sessionId: data.session_id ?? data.sessionId,
+        sessionId,
       };
     } catch (error: any) {
       console.error('[authApi] authKubeconfig error:', error);
@@ -177,6 +186,8 @@ export const authApi = {
    */
   async logout(): Promise<{ success: boolean }> {
     const response = await apiClient.delete('/credentials/aws');
+    // Clear session ID from localStorage
+    localStorage.removeItem('sessionId');
     return response.data;
   },
 };
